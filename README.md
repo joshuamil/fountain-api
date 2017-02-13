@@ -1,1 +1,1 @@
-= API for the Fountain CMS
+# API for the Fountain CMS
