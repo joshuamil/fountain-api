@@ -1,3 +1,25 @@
 [
-  {"path": "/api/authors", "name": "authors"}
+  {"path": "/api/items", "name": "items", "model": "items"},
+  {"path": "/api/website", "name": "website", "model": "website"},
+  {"path": "/api/microcopy", "name": "microcopy", "model": "microcopy"},
+  {"path": "/api/language", "name": "language", "model": "language"},
+  {"path": "/api/websitetags", "name": "websitetags", "model": "websitetags"},
+  {"path": "/api/websitemetadata", "name": "websitemetadata", "model": "websitemetadata"},
+  {"path": "/api/exhibits", "name": "exhibits", "model": "exhibits"},
+  {"path": "/api/urls", "name": "urls", "model": "urls"},
+  {"path": "/api/authors", "name": "authors", "model": "authors"},
+  {"path": "/api/tags", "name": "tags", "model": "tags"},
+  {"path": "/api/itemtags", "name": "itemtags", "model": "itemtags"},
+  {"path": "/api/itemviews", "name": "itemviews", "model": "itemviews"},
+  {"path": "/api/exhibititems", "name": "exhibititems", "model": "exhibititems"},
+  {"path": "/api/contenttypes", "name": "contenttypes", "model": "contenttypes"},
+  {"path": "/api/mediatypes", "name": "mediatypes", "model": "mediatypes"},
+  {"path": "/api/mediaelements", "name": "mediaelements", "model": "mediaelements"},
+  {"path": "/api/itemelements", "name": "itemelements", "model": "itemelements"},
+  {"path": "/api/templates", "name": "templates", "model": "templates"},
+  {"path": "/api/versions", "name": "versions", "model": "versions"},
+  {"path": "/api/publishing", "name": "publishing", "model": "publishing"},
+  {"path": "/api/subscribers", "name": "subscribers", "model": "subscribers"},
+  {"path": "/api/itemauthors", "name": "itemauthors", "model": "itemauthors"},
+  {"path": "/api/exhibitauthors", "name": "exhibitauthors", "model": "exhibitauthors"}
 ]

@@ -5,10 +5,11 @@
  *
  */
 
-let express = require('express');
-let router = express.Router();
-let dir = __dirname.split('/');
-let name = dir.slice(-1).pop();
+const express = require('express');
+const router = express.Router();
+const dir = __dirname.split('/');
+const name = dir.slice(-1).pop();
+// const MODEL = require('../../controllers').MODEL;
 
 
 // Global actions for the this route
@@ -20,44 +21,45 @@ router.use(function(req, res, next) {
 // Create Operations
 router.post('/', function(req, res) {
   let id = 0;
+  // return MODEL.create(req, res);
   res.send(`Post route for ${name}: ${id}`);
-  // Success: 201 (Created): Headers.Location: /${name}/${id}
-  // Fail: 404 (Not Found), 409 (Conflict)
 });
 
 
 // Read Operations
 router.get('/', function(req, res) {
+  // return MODEL.list(req, res);
   res.send(`Get route for ${name}`);
-  // Success: 200 (OK)
-  // Fail: 404 (Not Found)
+});
+
+router.get('/:id', function(req, res) {
+  let id = req.params.id;
+  // return MODEL.retrieve(req, res);
+  res.send(`Get route for ${name}: ${id}`);
 });
 
 
 // Update Operations
 router.put('/:id', function(req, res) {
   let id = req.params.id;
+  // return MODEL.update(req, res);
   res.send(`Put route for ${name}: ${id}`);
-  // Success: 200 (OK), 204 (No Content)
-  // Fail: 404 (Not Found)
 });
 
 
 // Modify Operations
 router.patch('/:id', function(req, res) {
   let id = req.params.id;
+  // return MODEL.patch(req, res);
   res.send(`Patch route for ${name}: ${id}`);
-  // Success: 200 (OK), 204 (No Content)
-  // Fail: 404 (Not Found)
 });
 
 
 // Delete Operations
 router.delete('/:id', function(req, res) {
   let id = req.params.id;
+  // return MODEL.delete(req, res);
   res.send(`Delete route for ${name}: ${id}`);
-  // Success: 200 (OK)
-  // Fail: 404 (Not Found)
 });
 
 
