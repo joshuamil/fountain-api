@@ -4,6 +4,9 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
 
+// Get application settings
+const settings = require('./conf/app.json');
+
 // Define custom routes
 const routes = require('./conf/routes.json');
 
@@ -33,7 +36,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 let routers = {};
 routes.forEach((rte) => {
   try {
-    routers[rte.name] = require(`./routes/${rte.name}/${rte.name}`);
+    routers[rte.name] = require(`./server/routes/${rte.name}/route`);
     app.use(rte.path, routers[rte.name]);
     console.log(`Route enabled: ${rte.name}`);
   } catch (e) {
@@ -41,8 +44,7 @@ routes.forEach((rte) => {
   }
 });
 
-
 // Initialize the server
-app.listen(3000, function () {
-  console.log('Running on port 3000');
+app.listen(settings.server.port, function () {
+  console.log(`Running on port: ${settings.server.port}`);
 });

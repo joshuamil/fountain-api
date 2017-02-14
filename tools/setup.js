@@ -1,11 +1,12 @@
 const pg = require('pg');
-
-let client = new pg.Client(process.env.DATABASE_URL);
+const client = new pg.Client(process.env.DATABASE_URL);
 
 client.connect( (err) => {
   if (err) throw err;
 
-  client.query("SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' and table_schema = 'public'", (err, result) => {
+  let statement = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' and table_schema = 'public'";
+
+  client.query(statement, (err, result) => {
     if (err) throw err;
 
     result.rows.forEach( (row) => {
