@@ -16,10 +16,8 @@ const uuidV4 = require('uuid/v4');
 module.exports = {
 
   create(req, res) {
-
     return [MODEL]
       .create({
-
         [COLUMNS]
       })
       .then( ([MODEL]) => {
@@ -44,6 +42,63 @@ module.exports = {
   retrieve(req, res) {
     return [MODEL]
       .findAll({
+        where: {
+          [KEYNAME]: req.params.id
+        }
+      })
+      .then( ([MODEL]) => {
+        res.status(200).send([MODEL]);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  update(req, res) {
+    return [MODEL]
+      .update({
+        [COLUMNS-UPDATE]
+      },{
+        where: {
+          [KEYNAME]: req.params.id
+        }
+      })
+      .then( ([MODEL]) => {
+        res.status(200).send([MODEL]);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  patch(req, res) {
+
+    let payload = {};
+    let keys = Object.keys(req.body);
+    keys.forEach( (field) => {
+      if(req.body[field] !== null && field !== '[KEYNAME]'){
+        payload[field] = req.body[field];
+      }
+    });
+
+    return [MODEL]
+      .update(payload,
+      {
+        where: {
+          [KEYNAME]: req.params.id
+        }
+      })
+      .then( ([MODEL]) => {
+        res.status(200).send([MODEL]);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  delete(req, res) {
+    return [MODEL]
+      .destroy({
         where: {
           [KEYNAME]: req.params.id
         }

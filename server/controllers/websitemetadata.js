@@ -16,10 +16,8 @@ const uuidV4 = require('uuid/v4');
 module.exports = {
 
   create(req, res) {
-
     return websitemetadata
       .create({
-
         metaid: uuidV4(),
         siteid: req.body.siteid,
         lang: req.body.lang,
@@ -72,6 +70,89 @@ module.exports = {
   retrieve(req, res) {
     return websitemetadata
       .findAll({
+        where: {
+          metaid: req.params.id
+        }
+      })
+      .then( (websitemetadata) => {
+        res.status(200).send(websitemetadata);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  update(req, res) {
+    return websitemetadata
+      .update({
+        siteid: req.body.siteid,
+        lang: req.body.lang,
+        title: req.body.title,
+        shortdesc: req.body.shortdesc,
+        longdesc: req.body.longdesc,
+        type: req.body.type,
+        url: req.body.url,
+        image: req.body.image,
+        fb_appid: req.body.fb_appid,
+        fb_adminid: req.body.fb_adminid,
+        tw_id: req.body.tw_id,
+        tw_name: req.body.tw_name,
+        gplus_id: req.body.gplus_id,
+        favicon: req.body.favicon,
+        mobile_icon_57: req.body.mobile_icon_57,
+        mobile_icon_72: req.body.mobile_icon_72,
+        mobile_icon_76: req.body.mobile_icon_76,
+        mobile_icon_114: req.body.mobile_icon_114,
+        mobile_icon_120: req.body.mobile_icon_120,
+        mobile_icon_144: req.body.mobile_icon_144,
+        mobile_icon_152: req.body.mobile_icon_152,
+        mobile_icon_180: req.body.mobile_icon_180,
+        privacypolicy: req.body.privacypolicy,
+        termsofuse: req.body.termsofuse,
+        deleted: req.body.deleted,
+        updatedAt: moment().format()
+
+      },{
+        where: {
+          metaid: req.params.id
+        }
+      })
+      .then( (websitemetadata) => {
+        res.status(200).send(websitemetadata);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  patch(req, res) {
+
+    let payload = {};
+    let keys = Object.keys(req.body);
+    keys.forEach( (field) => {
+      if(req.body[field] !== null && field !== 'metaid'){
+        payload[field] = req.body[field];
+      }
+    });
+
+    return websitemetadata
+      .update(payload,
+      {
+        where: {
+          metaid: req.params.id
+        }
+      })
+      .then( (websitemetadata) => {
+        res.status(200).send(websitemetadata);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  delete(req, res) {
+    return websitemetadata
+      .destroy({
         where: {
           metaid: req.params.id
         }

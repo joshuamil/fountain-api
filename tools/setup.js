@@ -98,7 +98,9 @@ client.connect( (err) => {
                 writeModelFile(fileModel, name, cols, '/templates/model.js'),
 
                 // Make migration
-                writeModelFile(fileMigr8, name, cols, '/templates/migrations.js'),
+                // writeModelFile(fileMigr8, name, cols, '/templates/migrations.js'),
+                // Disabled so that it doesn't create new migrations _every_ time it's run
+                // TODO: Come up with a better way to detect when a migration is required
 
                 // Make router
                 writeRouteFile(fileRoute, name, cols),
@@ -258,30 +260,47 @@ let writeFile = (file, data) => {
 let sequelizeInput = (name, cols, data) => {
 
   let content = data.replace(/\[MODEL\]/g, name);
-  let str = '';
+  let str = '', upd = '', comma = '', c = 0, u = 0;
   let keyname = '';
 
   cols.forEach( (col, i) => {
-    if (i > 0) {
+
+    if (c > 0) {
       str += '        ';
+    }
+
+    if (u > 0) {
+      upd += '        ';
+    }
+
+    comma = ',';
+    if (i === cols.length-1) {
+      comma = '';
     }
 
     // TODO: Add additional data type handlers here as well as more advanced
     // features for the controller generator
     if (col.default === 'uuid_generate_v4()' && col.type === 'uuid') {
-      str += `${col.name}: uuidV4()`;
+      str += `${col.name}: uuidV4()${comma}\n`;
       keyname = col.name;
-    } else if (col.name === 'createdAt' || col.name === 'updatedAt') {
-      str += `${col.name}: moment().format()`;
+      c++;
+      u=0;
+    } else if (col.name === 'createdAt') {
+      str += `${col.name}: moment().format()${comma}\n`;
+      c++;
+      u=0;
+    } else if (col.name === 'updatedAt') {
+      str += `${col.name}: moment().format()${comma}\n`;
+      upd += `${col.name}: moment().format()${comma}\n`;
+      c++;
+      u++;
     } else {
-      str += `${col.name}: req.body.${col.name}`;
+      str += `${col.name}: req.body.${col.name}${comma}\n`;
+      upd += `${col.name}: req.body.${col.name}${comma}\n`;
+      c++;
+      u++;
     }
 
-    if (i === cols.length-1) {
-      str += '\n';
-    } else {
-      str += ',\n';
-    }
   });
 
   if (keyname === '') {
@@ -289,6 +308,7 @@ let sequelizeInput = (name, cols, data) => {
   }
 
   content = content.replace(/\[COLUMNS\]/g, str);
+  content = content.replace(/\[COLUMNS-UPDATE\]/g, upd);
   content = content.replace(/\[KEYNAME\]/g, keyname);
 
   return content;

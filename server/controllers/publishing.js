@@ -16,10 +16,8 @@ const uuidV4 = require('uuid/v4');
 module.exports = {
 
   create(req, res) {
-
     return publishing
       .create({
-
         configid: uuidV4(),
         siteid: req.body.siteid,
         name: req.body.name,
@@ -54,6 +52,71 @@ module.exports = {
   retrieve(req, res) {
     return publishing
       .findAll({
+        where: {
+          configid: req.params.id
+        }
+      })
+      .then( (publishing) => {
+        res.status(200).send(publishing);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  update(req, res) {
+    return publishing
+      .update({
+        siteid: req.body.siteid,
+        name: req.body.name,
+        description: req.body.description,
+        type: req.body.type,
+        schedulecron: req.body.schedulecron,
+        targets: req.body.targets,
+        deleted: req.body.deleted,
+        updatedAt: moment().format()
+
+      },{
+        where: {
+          configid: req.params.id
+        }
+      })
+      .then( (publishing) => {
+        res.status(200).send(publishing);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  patch(req, res) {
+
+    let payload = {};
+    let keys = Object.keys(req.body);
+    keys.forEach( (field) => {
+      if(req.body[field] !== null && field !== 'configid'){
+        payload[field] = req.body[field];
+      }
+    });
+
+    return publishing
+      .update(payload,
+      {
+        where: {
+          configid: req.params.id
+        }
+      })
+      .then( (publishing) => {
+        res.status(200).send(publishing);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  delete(req, res) {
+    return publishing
+      .destroy({
         where: {
           configid: req.params.id
         }

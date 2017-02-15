@@ -16,10 +16,8 @@ const uuidV4 = require('uuid/v4');
 module.exports = {
 
   create(req, res) {
-
     return website
       .create({
-
         siteid: uuidV4(),
         name: req.body.name,
         copyrightholder: req.body.copyrightholder,
@@ -51,6 +49,68 @@ module.exports = {
   retrieve(req, res) {
     return website
       .findAll({
+        where: {
+          siteid: req.params.id
+        }
+      })
+      .then( (website) => {
+        res.status(200).send(website);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  update(req, res) {
+    return website
+      .update({
+        name: req.body.name,
+        copyrightholder: req.body.copyrightholder,
+        copyrightyear: req.body.copyrightyear,
+        deleted: req.body.deleted,
+        updatedAt: moment().format()
+
+      },{
+        where: {
+          siteid: req.params.id
+        }
+      })
+      .then( (website) => {
+        res.status(200).send(website);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  patch(req, res) {
+
+    let payload = {};
+    let keys = Object.keys(req.body);
+    keys.forEach( (field) => {
+      if(req.body[field] !== null && field !== 'siteid'){
+        payload[field] = req.body[field];
+      }
+    });
+
+    return website
+      .update(payload,
+      {
+        where: {
+          siteid: req.params.id
+        }
+      })
+      .then( (website) => {
+        res.status(200).send(website);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  delete(req, res) {
+    return website
+      .destroy({
         where: {
           siteid: req.params.id
         }

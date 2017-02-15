@@ -42,24 +42,21 @@ router.get('/:id', function(req, res) {
 // Update Operations
 router.put('/:id', function(req, res) {
   let id = req.params.id;
-  // return MODEL.update(req, res);
-  res.send(`Put route for ${name}: ${id}`);
+  return authors.update(req, res);
 });
 
 
 // Modify Operations
 router.patch('/:id', function(req, res) {
   let id = req.params.id;
-  // return MODEL.patch(req, res);
-  res.send(`Patch route for ${name}: ${id}`);
+  return authors.patch(req, res);
 });
 
 
 // Delete Operations
 router.delete('/:id', function(req, res) {
   let id = req.params.id;
-  // return MODEL.delete(req, res);
-  res.send(`Delete route for ${name}: ${id}`);
+  return authors.delete(req, res);
 });
 
 

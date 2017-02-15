@@ -24,20 +24,17 @@ router.use(function(req, res, next) {
 router.post('/', function(req, res) {
   let id = 0;
   return contenttypes.create(req, res);
-  // res.send(`Post route for ${name}: ${id}`);
 });
 
 
 // Read Operations
 router.get('/', function(req, res) {
   return contenttypes.list(req, res);
-  // res.send(`Get route for ${name}`);
 });
 
 router.get('/:id', function(req, res) {
   let id = req.params.id;
   return contenttypes.retrieve(req, res);
-  // res.send(`Get route for ${name}: ${id}`);
 });
 
 
@@ -45,7 +42,6 @@ router.get('/:id', function(req, res) {
 router.put('/:id', function(req, res) {
   let id = req.params.id;
   return contenttypes.update(req, res);
-  // res.send(`Put route for ${name}: ${id}`);
 });
 
 
@@ -53,7 +49,6 @@ router.put('/:id', function(req, res) {
 router.patch('/:id', function(req, res) {
   let id = req.params.id;
   return contenttypes.patch(req, res);
-  // res.send(`Patch route for ${name}: ${id}`);
 });
 
 
@@ -61,7 +56,6 @@ router.patch('/:id', function(req, res) {
 router.delete('/:id', function(req, res) {
   let id = req.params.id;
   return contenttypes.delete(req, res);
-  // res.send(`Delete route for ${name}: ${id}`);
 });
 
 

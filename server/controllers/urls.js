@@ -16,10 +16,8 @@ const uuidV4 = require('uuid/v4');
 module.exports = {
 
   create(req, res) {
-
     return urls
       .create({
-
         urlid: uuidV4(),
         exhibitid: req.body.exhibitid,
         url: req.body.url,
@@ -50,6 +48,67 @@ module.exports = {
   retrieve(req, res) {
     return urls
       .findAll({
+        where: {
+          urlid: req.params.id
+        }
+      })
+      .then( (urls) => {
+        res.status(200).send(urls);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  update(req, res) {
+    return urls
+      .update({
+        exhibitid: req.body.exhibitid,
+        url: req.body.url,
+        deleted: req.body.deleted,
+        updatedAt: moment().format()
+
+      },{
+        where: {
+          urlid: req.params.id
+        }
+      })
+      .then( (urls) => {
+        res.status(200).send(urls);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  patch(req, res) {
+
+    let payload = {};
+    let keys = Object.keys(req.body);
+    keys.forEach( (field) => {
+      if(req.body[field] !== null && field !== 'urlid'){
+        payload[field] = req.body[field];
+      }
+    });
+
+    return urls
+      .update(payload,
+      {
+        where: {
+          urlid: req.params.id
+        }
+      })
+      .then( (urls) => {
+        res.status(200).send(urls);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  delete(req, res) {
+    return urls
+      .destroy({
         where: {
           urlid: req.params.id
         }

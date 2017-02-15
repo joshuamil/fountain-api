@@ -16,10 +16,8 @@ const uuidV4 = require('uuid/v4');
 module.exports = {
 
   create(req, res) {
-
     return exhibits
       .create({
-
         exhibitid: uuidV4(),
         lang: req.body.lang,
         title: req.body.title,
@@ -52,6 +50,69 @@ module.exports = {
   retrieve(req, res) {
     return exhibits
       .findAll({
+        where: {
+          exhibitid: req.params.id
+        }
+      })
+      .then( (exhibits) => {
+        res.status(200).send(exhibits);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  update(req, res) {
+    return exhibits
+      .update({
+        lang: req.body.lang,
+        title: req.body.title,
+        description: req.body.description,
+        datepublished: req.body.datepublished,
+        deleted: req.body.deleted,
+        updatedAt: moment().format()
+
+      },{
+        where: {
+          exhibitid: req.params.id
+        }
+      })
+      .then( (exhibits) => {
+        res.status(200).send(exhibits);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  patch(req, res) {
+
+    let payload = {};
+    let keys = Object.keys(req.body);
+    keys.forEach( (field) => {
+      if(req.body[field] !== null && field !== 'exhibitid'){
+        payload[field] = req.body[field];
+      }
+    });
+
+    return exhibits
+      .update(payload,
+      {
+        where: {
+          exhibitid: req.params.id
+        }
+      })
+      .then( (exhibits) => {
+        res.status(200).send(exhibits);
+      })
+      .catch( (error) => {
+        res.status(404).send(error);
+      });
+  },
+
+  delete(req, res) {
+    return exhibits
+      .destroy({
         where: {
           exhibitid: req.params.id
         }
