@@ -1,3 +1,13 @@
+/**
+ * This utility creates Sequelize-enabled models, migrations and controllers
+ * from your existing database schema. It also generates route files and then
+ * registers those routes in your /conf/routes.json configuration file.
+ *
+ * TODO: Break this out into its own separate module that can be run outside
+ * of the context of the Fountain-API.
+ *
+ */
+
 const pg = require('pg');
 const fs = require('fs');
 const path = require('path');
