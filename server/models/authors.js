@@ -33,8 +33,6 @@ module.exports = function(sequelize, DataTypes) {
   );
 
   authors.removeAttribute('id');
-  authors.removeAttribute('createdAt');
-  authors.removeAttribute('updatedAt');
   return authors;
 
 };
