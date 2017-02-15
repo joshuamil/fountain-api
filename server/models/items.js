@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
   var items = sequelize.define('items', {
 
       itemid: {
-        type: DataTypes.UUID
+        type: DataTypes.UUID,
         primaryKey: true
       },
       lang: {

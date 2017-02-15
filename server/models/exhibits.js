@@ -8,23 +8,23 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
 
-  var website = sequelize.define('website', {
+  var exhibits = sequelize.define('exhibits', {
 
-      siteid: {
+      exhibitid: {
         type: DataTypes.UUID,
         primaryKey: true
       },
-      name: {
+      lang: {
         type: DataTypes.STRING
       },
-      datecreated: {
+      title: {
+        type: DataTypes.STRING
+      },
+      description: {
+        type: DataTypes.STRING
+      },
+      datepublished: {
         type: DataTypes.DATE
-      },
-      copyrightholder: {
-        type: DataTypes.STRING
-      },
-      copyrightyear: {
-        type: DataTypes.INTEGER
       },
       deleted: {
         type: DataTypes.BOOLEAN
@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
 
   );
 
-  website.removeAttribute('id');
-  return website;
+  exhibits.removeAttribute('id');
+  return exhibits;
 
 };

@@ -8,5 +8,6 @@ routes.forEach((rte) => {
     controllers[rte.name] = require(`./${rte.name}`);
     module.exports[rte.name] = controllers[rte.name];
   } catch (e) {
+    console.error(e);
   }
 });

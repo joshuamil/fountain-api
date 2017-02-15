@@ -6,7 +6,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.connect( (err) => {
   if (err) throw err;
 
-  let statement = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' and table_schema = 'public' and table_name = 'website'";
+  let statement = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' and table_schema = 'public' and table_name = 'exhibits' ORDER BY table_name ASC";
 
   client.query(statement, (err, result) => {
     if (err) throw err;
@@ -17,7 +17,7 @@ client.connect( (err) => {
       let dir = path.join(__dirname, `../server/routes/${name}`);
       let fileCntrl = path.join(__dirname, `../server/controllers/${name}.js`);
       let fileModel = path.join(__dirname, `../server/models/${name}.js`);
-      let fileRoute = path.join(__dirname, `../server/routes/${name}/route.js`);
+      let fileRoute = path.join(__dirname, `../server/routes/${name}.js`);
       let routeConf = path.join(__dirname, `../conf/routes.json`);
 
       // Make directory in /server/routes
@@ -165,7 +165,7 @@ let writeModelFile = (file, name, cols) => {
       }
 
       if (col.id === 'yes' || (col.default === 'uuid_generate_v4()' && col.type === 'uuid')) {
-        str += `\n        primaryKey: true`;
+        str += `,\n        primaryKey: true`;
       }
 
       if (i === cols.length-1) {

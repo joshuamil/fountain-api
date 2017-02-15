@@ -9,7 +9,7 @@ const express = require('express');
 const router = express.Router();
 const dir = __dirname.split('/');
 const name = dir.slice(-1).pop();
-const items = require('../../controllers').items;
+const authors = require('../controllers').authors;
 
 
 // Global actions for the this route
@@ -21,45 +21,45 @@ router.use(function(req, res, next) {
 // Create Operations
 router.post('/', function(req, res) {
   let id = 0;
-  return items.create(req, res);
-  // res.send(`Post route for ${name}: ${id}`);
+  return authors.create(req, res);
+  res.send(`Post route for ${name}: ${id}`);
 });
 
 
 // Read Operations
 router.get('/', function(req, res) {
-  return items.list(req, res);
-  // res.send(`Get route for ${name}`);
+  return authors.list(req, res);
 });
 
+
+// Read Operations
 router.get('/:id', function(req, res) {
   let id = req.params.id;
-  return items.retrieve(req, res);
-  // res.send(`Get route for ${name}: ${id}`);
+  return authors.retrieve(req, res);
 });
 
 
 // Update Operations
 router.put('/:id', function(req, res) {
   let id = req.params.id;
-  return items.update(req, res);
-  // res.send(`Put route for ${name}: ${id}`);
+  // return MODEL.update(req, res);
+  res.send(`Put route for ${name}: ${id}`);
 });
 
 
 // Modify Operations
 router.patch('/:id', function(req, res) {
   let id = req.params.id;
-  return items.patch(req, res);
-  // res.send(`Patch route for ${name}: ${id}`);
+  // return MODEL.patch(req, res);
+  res.send(`Patch route for ${name}: ${id}`);
 });
 
 
 // Delete Operations
 router.delete('/:id', function(req, res) {
   let id = req.params.id;
-  return items.delete(req, res);
-  // res.send(`Delete route for ${name}: ${id}`);
+  // return MODEL.delete(req, res);
+  res.send(`Delete route for ${name}: ${id}`);
 });
 
 

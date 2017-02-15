@@ -36,14 +36,11 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 let routers = {};
 routes.forEach((rte) => {
   try {
-    routers[rte.name] = require(`./server/routes/${rte.name}/route`);
+    routers[rte.name] = require(`./server/routes/${rte.name}`);
     app.use(`${settings.server.basePath}${rte.path}`, routers[rte.name]);
     console.log(`Route enabled: ${rte.name}`);
   } catch (e) {
     console.log(`Route missing: ${rte.name}`);
-    if(rte.name === 'authors') {
-      console.log(e);
-    }
   }
 });
 
