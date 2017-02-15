@@ -1,6 +1,7 @@
 const pg = require('pg');
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 const client = new pg.Client(process.env.DATABASE_URL);
 
 /**
@@ -67,6 +68,7 @@ client.connect( (err) => {
           let fileCntrl = path.join(__dirname, `../server/controllers/${name}.js`);
           let fileModel = path.join(__dirname, `../server/models/${name}.js`);
           let fileRoute = path.join(__dirname, `../server/routes/${name}.js`);
+          let fileMigr8 = path.join(__dirname, `../server/migrations/${moment().format('YYYYMMDDHHmmss')}-create-${name}.js`);
           let routeConf = path.join(__dirname, `../conf/routes.json`);
 
           // Retrieve columns for this table
@@ -83,7 +85,10 @@ client.connect( (err) => {
                 writeCntrlFile(fileCntrl, name, cols),
 
                 // Make model
-                writeModelFile(fileModel, name, cols),
+                writeModelFile(fileModel, name, cols, '/templates/model.js'),
+
+                // Make migration
+                writeModelFile(fileMigr8, name, cols, '/templates/migrations.js'),
 
                 // Make router
                 writeRouteFile(fileRoute, name, cols),
@@ -95,6 +100,7 @@ client.connect( (err) => {
               .then( ([ctrl, model, route, conf]) => {
                 console.log(' - Generated Controller');
                 console.log(' - Generated Model');
+                console.log(' - Generated Migration');
                 console.log(' - Generated Router');
                 console.log(' - Added to Router Config');
                 console.log(' ');
@@ -115,6 +121,9 @@ client.connect( (err) => {
               });
 
 
+            })
+            .catch( (e) => {
+              console.log(e);
             });
 
 
@@ -180,85 +189,23 @@ let writeCntrlFile = (file, name, cols) => {
   let keyname = '';
   fs.readFile(template, 'utf8', (err, data) => {
     if (err) throw err;
-    let content = data.replace(/\[MODEL\]/g, name);
-
-    cols.forEach( (col, i) => {
-      if (i > 0) {
-        str += '        ';
-      }
-
-      // TODO: Add additional data type handlers here as well as more advanced
-      // features for the controller generator
-      if (col.default === 'uuid_generate_v4()' && col.type === 'uuid') {
-        str += `${col.name}: uuidV4()`;
-        keyname = col.name;
-      } else if (col.name === 'createdAt' || col.name === 'updatedAt') {
-        str += `${col.name}: moment().format()`;
-      } else {
-        str += `${col.name}: req.body.${col.name}`;
-      }
-
-      if (i === cols.length-1) {
-        str += '\n';
-      } else {
-        str += ',\n';
-      }
-    });
-
-    content = content.replace(/\[COLUMNS\]/g, str);
-    content = content.replace(/\[KEYNAME\]/g, keyname);
+    let content = sequelizeInput(name, cols, data);
     Promise.resolve(writeFile(file, content));
   });
 };
 
 
 /**
- * Creates a new Model file for the specified table.
+ * Creates a new Model or Migration file for the specified table.
  * This file will require modification in order to operate properly.
  *
  */
-let writeModelFile = (file, name, cols) => {
-  let template = path.join(__dirname + '/templates/model.js');
+let writeModelFile = (file, name, cols, dir) => {
   let str = '';
+  let template = path.join(__dirname + (dir || '/templates/model.js'));
   fs.readFile(template, 'utf8', (err, data) => {
     if (err) throw err;
-
-    let content = data.replace(/\[MODEL\]/g, name);
-
-    cols.forEach( (col, i) => {
-      if (i > 0) {
-        str += '      ';
-      }
-      str += `${col.name}: {\n`
-      str += `        type: `;
-
-      // TODO: Add additional data type handlers here as well as more advanced
-      // features for the model generator
-      if (col.type === 'uuid') {
-        str += `DataTypes.UUID`;
-      } else if (col.type === 'bit') {
-        str += `DataTypes.BOOLEAN`;
-      } else if (col.type === 'timestamp') {
-        str += `DataTypes.DATE`;
-      } else if (col.type === 'int4') {
-        str += `DataTypes.INTEGER`;
-      } else {
-        str += `DataTypes.STRING`;
-      }
-
-      if (col.id === 'yes' || (col.default === 'uuid_generate_v4()' && col.type === 'uuid')) {
-        str += `,\n        primaryKey: true`;
-      }
-
-      if (i === cols.length-1) {
-        str += '\n      }\n';
-      } else {
-        str += '\n      },\n';
-      }
-    });
-
-    content = content.replace(/\[COLUMNS\]/g, str);
-
+    let content = sequelizeColumns(name, cols, data);
     Promise.resolve(writeFile(file, content));
   });
 };
@@ -291,6 +238,98 @@ let writeFile = (file, data) => {
       });
     }
   });
+};
+
+
+/**
+ * Formats column data into Sequelize-specific format for generating controllers
+ *
+ */
+let sequelizeInput = (name, cols, data) => {
+
+  let content = data.replace(/\[MODEL\]/g, name);
+  let str = '';
+  let keyname = '';
+
+  cols.forEach( (col, i) => {
+    if (i > 0) {
+      str += '        ';
+    }
+
+    // TODO: Add additional data type handlers here as well as more advanced
+    // features for the controller generator
+    if (col.default === 'uuid_generate_v4()' && col.type === 'uuid') {
+      str += `${col.name}: uuidV4()`;
+      keyname = col.name;
+    } else if (col.name === 'createdAt' || col.name === 'updatedAt') {
+      str += `${col.name}: moment().format()`;
+    } else {
+      str += `${col.name}: req.body.${col.name}`;
+    }
+
+    if (i === cols.length-1) {
+      str += '\n';
+    } else {
+      str += ',\n';
+    }
+  });
+
+  if (keyname === '') {
+    keyname = `${name}id`;
+  }
+
+  content = content.replace(/\[COLUMNS\]/g, str);
+  content = content.replace(/\[KEYNAME\]/g, keyname);
+
+  return content;
+};
+
+
+/**
+ * Formats column data into Sequelize-specific format for generating models
+ * and migrations.
+ *
+ */
+let sequelizeColumns = (name, cols, data) => {
+
+  let content = data.replace(/\[MODEL\]/g, name);
+  let str = '';
+
+  cols.forEach( (col, i) => {
+    if (i > 0) {
+      str += '      ';
+    }
+    str += `${col.name}: {\n`
+    str += `        type: `;
+
+    // TODO: Add additional data type handlers here as well as more advanced
+    // features for the model generator
+    if (col.type === 'uuid') {
+      str += `DataTypes.UUID`;
+    } else if (col.type === 'bit') {
+      str += `DataTypes.BOOLEAN`;
+    } else if (col.type === 'timestamp') {
+      str += `DataTypes.DATE`;
+    } else if (col.type === 'int4') {
+      str += `DataTypes.INTEGER`;
+    } else {
+      str += `DataTypes.STRING`;
+    }
+
+    if (col.id === 'yes' || (col.default === 'uuid_generate_v4()' && col.type === 'uuid')) {
+      str += `,\n        primaryKey: true`;
+    }
+
+    if (i === cols.length-1) {
+      str += '\n      }\n';
+    } else {
+      str += '\n      },\n';
+    }
+  });
+
+  content = content.replace(/\[COLUMNS\]/g, str);
+
+  return content;
 };
 
 
