@@ -9,19 +9,16 @@
 
 module.exports = function(sequelize, DataTypes) {
 
-  var website = sequelize.define('website', {
+  var itemtags = sequelize.define('itemtags', {
 
-      siteid: {
+      itemid: {
         type: DataTypes.UUID,
         primaryKey: true
       },
-      name: {
-        type: DataTypes.STRING
+      tagid: {
+        type: DataTypes.UUID
       },
-      copyrightholder: {
-        type: DataTypes.STRING
-      },
-      copyrightyear: {
+      tagstrength: {
         type: DataTypes.INTEGER
       },
       deleted: {
@@ -36,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
       freezeTableName: true,
-      tableName: 'website'
+      tableName: 'itemtags'
     }, {
       classMethods: {
         associate: function (models) {
@@ -47,7 +44,7 @@ module.exports = function(sequelize, DataTypes) {
 
   );
 
-  website.removeAttribute('id');
-  return website;
+  itemtags.removeAttribute('id');
+  return itemtags;
 
 };

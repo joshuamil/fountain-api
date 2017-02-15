@@ -1,6 +1,6 @@
 /**
  * This controller handles the interaction of the API route and the data model
- * for "website". Actions here meant to be handled directly by RESTful requests
+ * for "mediaelements". Actions here meant to be handled directly by RESTful requests
  * that initiate via the associated route. Each REST verb should have a related
  * action in this file (e.g.: GET = list / retrieve, POST = create, PUT = update,
  * PATCH = modify, etc.)
@@ -9,7 +9,7 @@
 
 'use strict';
 
-const website = require('../models').website;
+const mediaelements = require('../models').mediaelements;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
@@ -17,20 +17,26 @@ module.exports = {
 
   create(req, res) {
 
-    return website
+    return mediaelements
       .create({
 
-        siteid: uuidV4(),
-        name: req.body.name,
-        copyrightholder: req.body.copyrightholder,
-        copyrightyear: req.body.copyrightyear,
+        elementid: uuidV4(),
+        mediatypeid: req.body.mediatypeid,
+        lang: req.body.lang,
+        mediasource: req.body.mediasource,
+        title: req.body.title,
+        caption: req.body.caption,
+        alttext: req.body.alttext,
+        credit: req.body.credit,
+        datasources: req.body.datasources,
+        datepublished: req.body.datepublished,
         deleted: req.body.deleted,
         createdAt: moment().format(),
         updatedAt: moment().format()
 
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (mediaelements) => {
+        res.status(200).send(mediaelements);
       })
       .catch( (error) => {
         res.status(400).send(error);
@@ -38,10 +44,10 @@ module.exports = {
   },
 
   list(req, res) {
-    return website
+    return mediaelements
       .findAll()
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (mediaelements) => {
+        res.status(200).send(mediaelements);
       })
       .catch( (error) => {
         res.status(404).send(error);
@@ -49,14 +55,14 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    return website
+    return mediaelements
       .findAll({
         where: {
-          siteid: req.params.id
+          elementid: req.params.id
         }
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (mediaelements) => {
+        res.status(200).send(mediaelements);
       })
       .catch( (error) => {
         res.status(404).send(error);

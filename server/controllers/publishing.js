@@ -1,6 +1,6 @@
 /**
  * This controller handles the interaction of the API route and the data model
- * for "website". Actions here meant to be handled directly by RESTful requests
+ * for "publishing". Actions here meant to be handled directly by RESTful requests
  * that initiate via the associated route. Each REST verb should have a related
  * action in this file (e.g.: GET = list / retrieve, POST = create, PUT = update,
  * PATCH = modify, etc.)
@@ -9,7 +9,7 @@
 
 'use strict';
 
-const website = require('../models').website;
+const publishing = require('../models').publishing;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
@@ -17,20 +17,23 @@ module.exports = {
 
   create(req, res) {
 
-    return website
+    return publishing
       .create({
 
-        siteid: uuidV4(),
+        configid: uuidV4(),
+        siteid: req.body.siteid,
         name: req.body.name,
-        copyrightholder: req.body.copyrightholder,
-        copyrightyear: req.body.copyrightyear,
+        description: req.body.description,
+        type: req.body.type,
+        schedulecron: req.body.schedulecron,
+        targets: req.body.targets,
         deleted: req.body.deleted,
         createdAt: moment().format(),
         updatedAt: moment().format()
 
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (publishing) => {
+        res.status(200).send(publishing);
       })
       .catch( (error) => {
         res.status(400).send(error);
@@ -38,10 +41,10 @@ module.exports = {
   },
 
   list(req, res) {
-    return website
+    return publishing
       .findAll()
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (publishing) => {
+        res.status(200).send(publishing);
       })
       .catch( (error) => {
         res.status(404).send(error);
@@ -49,14 +52,14 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    return website
+    return publishing
       .findAll({
         where: {
-          siteid: req.params.id
+          configid: req.params.id
         }
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (publishing) => {
+        res.status(200).send(publishing);
       })
       .catch( (error) => {
         res.status(404).send(error);

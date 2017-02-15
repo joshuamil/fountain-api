@@ -9,20 +9,20 @@
 
 module.exports = function(sequelize, DataTypes) {
 
-  var website = sequelize.define('website', {
+  var microcopy = sequelize.define('microcopy', {
 
-      siteid: {
+      entryid: {
         type: DataTypes.UUID,
         primaryKey: true
       },
-      name: {
+      lang: {
         type: DataTypes.STRING
       },
-      copyrightholder: {
+      key: {
         type: DataTypes.STRING
       },
-      copyrightyear: {
-        type: DataTypes.INTEGER
+      value: {
+        type: DataTypes.STRING
       },
       deleted: {
         type: DataTypes.BOOLEAN
@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
       freezeTableName: true,
-      tableName: 'website'
+      tableName: 'microcopy'
     }, {
       classMethods: {
         associate: function (models) {
@@ -47,7 +47,7 @@ module.exports = function(sequelize, DataTypes) {
 
   );
 
-  website.removeAttribute('id');
-  return website;
+  microcopy.removeAttribute('id');
+  return microcopy;
 
 };

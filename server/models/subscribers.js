@@ -9,19 +9,37 @@
 
 module.exports = function(sequelize, DataTypes) {
 
-  var website = sequelize.define('website', {
+  var subscribers = sequelize.define('subscribers', {
 
-      siteid: {
+      configid: {
         type: DataTypes.UUID,
         primaryKey: true
       },
       name: {
         type: DataTypes.STRING
       },
-      copyrightholder: {
+      description: {
         type: DataTypes.STRING
       },
-      copyrightyear: {
+      ratecalls: {
+        type: DataTypes.INTEGER
+      },
+      rateduration: {
+        type: DataTypes.INTEGER
+      },
+      quotacalls: {
+        type: DataTypes.INTEGER
+      },
+      quotaduration: {
+        type: DataTypes.INTEGER
+      },
+      ipsallowed: {
+        type: DataTypes.STRING
+      },
+      ipsdenied: {
+        type: DataTypes.STRING
+      },
+      priority: {
         type: DataTypes.INTEGER
       },
       deleted: {
@@ -36,7 +54,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
       freezeTableName: true,
-      tableName: 'website'
+      tableName: 'subscribers'
     }, {
       classMethods: {
         associate: function (models) {
@@ -47,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
 
   );
 
-  website.removeAttribute('id');
-  return website;
+  subscribers.removeAttribute('id');
+  return subscribers;
 
 };

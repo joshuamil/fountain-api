@@ -9,23 +9,23 @@
 
 module.exports = function(sequelize, DataTypes) {
 
-  var website = sequelize.define('website', {
+  var itemviews = sequelize.define('itemviews', {
 
-      siteid: {
+      viewid: {
         type: DataTypes.UUID,
         primaryKey: true
       },
-      name: {
+      itemid: {
+        type: DataTypes.UUID
+      },
+      referreditemid: {
+        type: DataTypes.UUID
+      },
+      remote_addr: {
         type: DataTypes.STRING
       },
-      copyrightholder: {
-        type: DataTypes.STRING
-      },
-      copyrightyear: {
-        type: DataTypes.INTEGER
-      },
-      deleted: {
-        type: DataTypes.BOOLEAN
+      dateviewed: {
+        type: DataTypes.DATE
       },
       createdAt: {
         type: DataTypes.DATE
@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
       freezeTableName: true,
-      tableName: 'website'
+      tableName: 'itemviews'
     }, {
       classMethods: {
         associate: function (models) {
@@ -47,7 +47,7 @@ module.exports = function(sequelize, DataTypes) {
 
   );
 
-  website.removeAttribute('id');
-  return website;
+  itemviews.removeAttribute('id');
+  return itemviews;
 
 };

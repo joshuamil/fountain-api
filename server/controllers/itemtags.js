@@ -1,6 +1,6 @@
 /**
  * This controller handles the interaction of the API route and the data model
- * for "website". Actions here meant to be handled directly by RESTful requests
+ * for "itemtags". Actions here meant to be handled directly by RESTful requests
  * that initiate via the associated route. Each REST verb should have a related
  * action in this file (e.g.: GET = list / retrieve, POST = create, PUT = update,
  * PATCH = modify, etc.)
@@ -9,7 +9,7 @@
 
 'use strict';
 
-const website = require('../models').website;
+const itemtags = require('../models').itemtags;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
@@ -17,20 +17,19 @@ module.exports = {
 
   create(req, res) {
 
-    return website
+    return itemtags
       .create({
 
-        siteid: uuidV4(),
-        name: req.body.name,
-        copyrightholder: req.body.copyrightholder,
-        copyrightyear: req.body.copyrightyear,
+        itemid: uuidV4(),
+        tagid: req.body.tagid,
+        tagstrength: req.body.tagstrength,
         deleted: req.body.deleted,
         createdAt: moment().format(),
         updatedAt: moment().format()
 
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (itemtags) => {
+        res.status(200).send(itemtags);
       })
       .catch( (error) => {
         res.status(400).send(error);
@@ -38,10 +37,10 @@ module.exports = {
   },
 
   list(req, res) {
-    return website
+    return itemtags
       .findAll()
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (itemtags) => {
+        res.status(200).send(itemtags);
       })
       .catch( (error) => {
         res.status(404).send(error);
@@ -49,14 +48,14 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    return website
+    return itemtags
       .findAll({
         where: {
-          siteid: req.params.id
+          itemid: req.params.id
         }
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (itemtags) => {
+        res.status(200).send(itemtags);
       })
       .catch( (error) => {
         res.status(404).send(error);

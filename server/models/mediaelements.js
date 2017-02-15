@@ -9,20 +9,38 @@
 
 module.exports = function(sequelize, DataTypes) {
 
-  var website = sequelize.define('website', {
+  var mediaelements = sequelize.define('mediaelements', {
 
-      siteid: {
+      elementid: {
         type: DataTypes.UUID,
         primaryKey: true
       },
-      name: {
+      mediatypeid: {
+        type: DataTypes.UUID
+      },
+      lang: {
         type: DataTypes.STRING
       },
-      copyrightholder: {
+      mediasource: {
         type: DataTypes.STRING
       },
-      copyrightyear: {
-        type: DataTypes.INTEGER
+      title: {
+        type: DataTypes.STRING
+      },
+      caption: {
+        type: DataTypes.STRING
+      },
+      alttext: {
+        type: DataTypes.STRING
+      },
+      credit: {
+        type: DataTypes.STRING
+      },
+      datasources: {
+        type: DataTypes.STRING
+      },
+      datepublished: {
+        type: DataTypes.DATE
       },
       deleted: {
         type: DataTypes.BOOLEAN
@@ -36,7 +54,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
       freezeTableName: true,
-      tableName: 'website'
+      tableName: 'mediaelements'
     }, {
       classMethods: {
         associate: function (models) {
@@ -47,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
 
   );
 
-  website.removeAttribute('id');
-  return website;
+  mediaelements.removeAttribute('id');
+  return mediaelements;
 
 };

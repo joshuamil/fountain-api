@@ -9,20 +9,35 @@
 
 module.exports = function(sequelize, DataTypes) {
 
-  var website = sequelize.define('website', {
+  var versions = sequelize.define('versions', {
 
-      siteid: {
+      configid: {
         type: DataTypes.UUID,
         primaryKey: true
       },
-      name: {
+      versionfull: {
         type: DataTypes.STRING
       },
-      copyrightholder: {
-        type: DataTypes.STRING
-      },
-      copyrightyear: {
+      versionmajor: {
         type: DataTypes.INTEGER
+      },
+      versionminor: {
+        type: DataTypes.INTEGER
+      },
+      versionrelease: {
+        type: DataTypes.INTEGER
+      },
+      versionpatch: {
+        type: DataTypes.INTEGER
+      },
+      versionname: {
+        type: DataTypes.STRING
+      },
+      description: {
+        type: DataTypes.STRING
+      },
+      releasenotes: {
+        type: DataTypes.STRING
       },
       deleted: {
         type: DataTypes.BOOLEAN
@@ -36,7 +51,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
       freezeTableName: true,
-      tableName: 'website'
+      tableName: 'versions'
     }, {
       classMethods: {
         associate: function (models) {
@@ -47,7 +62,7 @@ module.exports = function(sequelize, DataTypes) {
 
   );
 
-  website.removeAttribute('id');
-  return website;
+  versions.removeAttribute('id');
+  return versions;
 
 };

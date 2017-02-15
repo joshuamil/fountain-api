@@ -1,6 +1,6 @@
 /**
  * This controller handles the interaction of the API route and the data model
- * for "website". Actions here meant to be handled directly by RESTful requests
+ * for "language". Actions here meant to be handled directly by RESTful requests
  * that initiate via the associated route. Each REST verb should have a related
  * action in this file (e.g.: GET = list / retrieve, POST = create, PUT = update,
  * PATCH = modify, etc.)
@@ -9,7 +9,7 @@
 
 'use strict';
 
-const website = require('../models').website;
+const language = require('../models').language;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
@@ -17,20 +17,21 @@ module.exports = {
 
   create(req, res) {
 
-    return website
+    return language
       .create({
 
-        siteid: uuidV4(),
-        name: req.body.name,
-        copyrightholder: req.body.copyrightholder,
-        copyrightyear: req.body.copyrightyear,
+        langid: uuidV4(),
+        lang: req.body.lang,
+        locale: req.body.locale,
+        label: req.body.label,
+        isdefault: req.body.isdefault,
         deleted: req.body.deleted,
         createdAt: moment().format(),
         updatedAt: moment().format()
 
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (language) => {
+        res.status(200).send(language);
       })
       .catch( (error) => {
         res.status(400).send(error);
@@ -38,10 +39,10 @@ module.exports = {
   },
 
   list(req, res) {
-    return website
+    return language
       .findAll()
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (language) => {
+        res.status(200).send(language);
       })
       .catch( (error) => {
         res.status(404).send(error);
@@ -49,14 +50,14 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    return website
+    return language
       .findAll({
         where: {
-          siteid: req.params.id
+          langid: req.params.id
         }
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (language) => {
+        res.status(200).send(language);
       })
       .catch( (error) => {
         res.status(404).send(error);

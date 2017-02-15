@@ -1,6 +1,6 @@
 /**
  * This controller handles the interaction of the API route and the data model
- * for "website". Actions here meant to be handled directly by RESTful requests
+ * for "exhibititems". Actions here meant to be handled directly by RESTful requests
  * that initiate via the associated route. Each REST verb should have a related
  * action in this file (e.g.: GET = list / retrieve, POST = create, PUT = update,
  * PATCH = modify, etc.)
@@ -9,7 +9,7 @@
 
 'use strict';
 
-const website = require('../models').website;
+const exhibititems = require('../models').exhibititems;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
@@ -17,20 +17,20 @@ module.exports = {
 
   create(req, res) {
 
-    return website
+    return exhibititems
       .create({
 
-        siteid: uuidV4(),
-        name: req.body.name,
-        copyrightholder: req.body.copyrightholder,
-        copyrightyear: req.body.copyrightyear,
+        exhibitid: uuidV4(),
+        itemid: req.body.itemid,
+        sortorder: req.body.sortorder,
+        islead: req.body.islead,
         deleted: req.body.deleted,
         createdAt: moment().format(),
         updatedAt: moment().format()
 
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (exhibititems) => {
+        res.status(200).send(exhibititems);
       })
       .catch( (error) => {
         res.status(400).send(error);
@@ -38,10 +38,10 @@ module.exports = {
   },
 
   list(req, res) {
-    return website
+    return exhibititems
       .findAll()
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (exhibititems) => {
+        res.status(200).send(exhibititems);
       })
       .catch( (error) => {
         res.status(404).send(error);
@@ -49,14 +49,14 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    return website
+    return exhibititems
       .findAll({
         where: {
-          siteid: req.params.id
+          exhibitid: req.params.id
         }
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (exhibititems) => {
+        res.status(200).send(exhibititems);
       })
       .catch( (error) => {
         res.status(404).send(error);

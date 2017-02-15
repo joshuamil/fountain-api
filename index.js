@@ -41,6 +41,7 @@ routes.forEach((rte) => {
     console.log(`Route enabled: ${rte.name}`);
   } catch (e) {
     console.log(`Route missing: ${rte.name}`);
+    console.log(e);
   }
 });
 

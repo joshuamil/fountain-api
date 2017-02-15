@@ -1,19 +1,21 @@
 /**
- * This route defines the CRUD operations for a given route in the API.
- * Each entity you wish to interact with inside of Fountain should have a
- * corresponding route file structured like this.
+ * This model reflects the structure of the associated database table or target
+ * storage location. If you make modifications to your source table, they should
+ * be reflected here as well.
  *
  */
 
 'use strict';
+
 module.exports = function(sequelize, DataTypes) {
 
   var [MODEL] = sequelize.define('[MODEL]', {
 
       [COLUMNS]
-    },
-
-    {
+    }, {
+      freezeTableName: true,
+      tableName: '[MODEL]'
+    }, {
       classMethods: {
         associate: function (models) {
           // associations can be defined here

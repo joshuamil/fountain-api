@@ -1,6 +1,6 @@
 /**
  * This controller handles the interaction of the API route and the data model
- * for "website". Actions here meant to be handled directly by RESTful requests
+ * for "mediatypes". Actions here meant to be handled directly by RESTful requests
  * that initiate via the associated route. Each REST verb should have a related
  * action in this file (e.g.: GET = list / retrieve, POST = create, PUT = update,
  * PATCH = modify, etc.)
@@ -9,7 +9,7 @@
 
 'use strict';
 
-const website = require('../models').website;
+const mediatypes = require('../models').mediatypes;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
@@ -17,20 +17,18 @@ module.exports = {
 
   create(req, res) {
 
-    return website
+    return mediatypes
       .create({
 
-        siteid: uuidV4(),
-        name: req.body.name,
-        copyrightholder: req.body.copyrightholder,
-        copyrightyear: req.body.copyrightyear,
-        deleted: req.body.deleted,
+        mediatypeid: uuidV4(),
+        mediatype: req.body.mediatype,
+        mimetype: req.body.mimetype,
         createdAt: moment().format(),
         updatedAt: moment().format()
 
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (mediatypes) => {
+        res.status(200).send(mediatypes);
       })
       .catch( (error) => {
         res.status(400).send(error);
@@ -38,10 +36,10 @@ module.exports = {
   },
 
   list(req, res) {
-    return website
+    return mediatypes
       .findAll()
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (mediatypes) => {
+        res.status(200).send(mediatypes);
       })
       .catch( (error) => {
         res.status(404).send(error);
@@ -49,14 +47,14 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    return website
+    return mediatypes
       .findAll({
         where: {
-          siteid: req.params.id
+          mediatypeid: req.params.id
         }
       })
-      .then( (website) => {
-        res.status(200).send(website);
+      .then( (mediatypes) => {
+        res.status(200).send(mediatypes);
       })
       .catch( (error) => {
         res.status(404).send(error);
