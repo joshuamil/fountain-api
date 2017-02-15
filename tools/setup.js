@@ -11,6 +11,15 @@ client.connect( (err) => {
 
     result.rows.forEach( (row) => {
       console.log(row.table_name);
+
+      // Make directory in /server/routes
+
+      // Make controller
+
+      // Make model
+
+      // Register in routes.json
+
     });
 
     client.end( (err) => {

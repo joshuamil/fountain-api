@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Define base API route handler
-app.all('/api/:operation', function (req, res, next) {
+app.all(`${settings.server.basePath}/:operation`, function (req, res, next) {
   // Handle lookup of client, authentication token, rate limits, etc.
   console.log(`Invoking route: ${req.params.operation}`);
   next();
@@ -37,10 +37,13 @@ let routers = {};
 routes.forEach((rte) => {
   try {
     routers[rte.name] = require(`./server/routes/${rte.name}/route`);
-    app.use(rte.path, routers[rte.name]);
+    app.use(`${settings.server.basePath}${rte.path}`, routers[rte.name]);
     console.log(`Route enabled: ${rte.name}`);
   } catch (e) {
     console.log(`Route missing: ${rte.name}`);
+    if(rte.name === 'authors') {
+      console.log(e);
+    }
   }
 });
 
