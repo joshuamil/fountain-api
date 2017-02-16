@@ -2,8 +2,100 @@
 <html>
 <head>
   <title>Fountain API</title>
+  <link rel="stylesheet" type="text/css" href="static/styles/main.css">
 </head>
 <body>
-  <h1>Welcome to the Fountain API</h1>
+
+  <header>
+    <h1>Welcome to the Fountain API</h1>
+    <hr />
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Get Postman Scripts</a></li>
+      <li><a href="#">View Swagger Docs</a></li>
+    </ul>
+  </nav>
+
+  <section>
+
+    <h2>Operation</h2>
+
+    <div class="operations">
+
+      <div class="item">
+        <div class="method get">GET</div>
+        <div class="path">/authors</div>
+        <div class="blurb">Returns a list of Authors</div>
+      </div>
+
+      <div class="attributes">
+<textarea>{
+  authorid:{
+    type: DataTypes.UUID,
+    primaryKey: true
+  },
+  firstname:{ type: DataTypes.STRING },
+  lastname:{ type: DataTypes.STRING },
+  credentials: { type: DataTypes.STRING },
+  email:{ type: DataTypes.STRING },
+  twitter: { type: DataTypes.STRING },
+  facebook: { type: DataTypes.STRING },
+  googleplus: { type: DataTypes.STRING },
+  instagram: { type: DataTypes.STRING },
+  passcode: { type: DataTypes.STRING },
+  createdAt: { type: DataTypes.DATE },
+  updatedAt: { type: DataTypes.DATE },
+  deleted: { type: DataTypes.BOOLEAN }
+}
+</textarea>
+
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="item">
+        <div class="method post">POST</div>
+        <div class="path">/authors/:id</div>
+        <div class="blurb">Returns a specific Author</div>
+      </div>
+
+      <div class="attributes">
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    <div>
+      API for the Fountain CMS.
+      <a href="https://github.com/joshuamil/fountain-api">View on GitHub</a>
+
+    </div>
+  </footer>
+
+
+  <script src="static/scripts/main.js"></script>
+
 </body>
 </html>
