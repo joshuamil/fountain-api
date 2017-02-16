@@ -80,6 +80,7 @@ client.connect( (err) => {
           let fileRoute = path.join(__dirname, `../server/routes/${name}.js`);
           let fileMigr8 = path.join(__dirname, `../server/migrations/${moment().format('YYYYMMDDHHmmss')}-create-${name}.js`);
           let routeConf = path.join(__dirname, `../conf/routes.json`);
+          let fileSwagger = path.join(__dirname, `../server/configs/${name}.swagger.json`);
 
           // Retrieve columns for this table
           let columns = getColumns(name)
@@ -105,6 +106,9 @@ client.connect( (err) => {
                 // Make router
                 writeRouteFile(fileRoute, name, cols),
 
+                // Write swagger configuration
+                writeSwagger(fileSwagger, name, cols),
+
                 // Register in routes.json
                 // writeToRouteConfig(routeConf, name)
 
@@ -114,6 +118,7 @@ client.connect( (err) => {
                 console.log(' - Generated Model');
                 console.log(' - Generated Migration');
                 console.log(' - Generated Router');
+                console.log(' - Generated Swagger Config');
                 console.log(' - Added to Router Config');
                 console.log(' ');
               })
@@ -218,6 +223,17 @@ let writeModelFile = (file, name, cols, dir) => {
   fs.readFile(template, 'utf8', (err, data) => {
     if (err) throw err;
     let content = sequelizeColumns(name, cols, data);
+    Promise.resolve(writeFile(file, content));
+  });
+};
+
+
+let writeSwagger = (file, name, cols) => {
+  let schema = path.join(__dirname + '/templates/swagger.schema.json');
+  let str = '';
+  fs.readFile(schema, 'utf8', (err, data) => {
+    if (err) throw err;
+    let content = swaggerizeColumns(name, cols, data);
     Promise.resolve(writeFile(file, content));
   });
 };
@@ -358,6 +374,56 @@ let sequelizeColumns = (name, cols, data) => {
   });
 
   content = content.replace(/\[COLUMNS\]/g, str);
+
+  return content;
+};
+
+
+/**
+ * Formats column data into Swagger-specific format for generating API docs
+ *
+ */
+let swaggerizeColumns = (name, cols, data) => {
+
+  let content = data.replace(/\[MODEL\]/g, name);
+  let str = '';
+
+  cols.forEach( (col, i) => {
+    if (i > 0) {
+      str += '        ';
+    }
+    str += `"${col.name}": {\n`
+    str += `          "type": `;
+
+    // TODO: Add additional data type handlers here
+    if (col.type === 'uuid') {
+      str += `"string"`;
+      str += `,\n         "description": "UUID (Universal Unique Identifier)"`;
+    } else if (col.type === 'bit') {
+      str += `"boolean"`;
+    } else if (col.type === 'timestamp') {
+      str += `"string"`;
+      str += `,\n         "format": "date"`;
+      str += `,\n         "description": "Date and Time Stamp"`;
+    } else if (col.type === 'int4') {
+      str += `"integer"`;
+      str += `,\n         "format": "int32"`;
+    } else if (col.name === 'password' || col.name === 'passcode') {
+      str += `"string"`;
+      str += `,\n         "format": "password"`;
+      str += `,\n         "description": "Password"`;
+    } else {
+      str += `"string"`;
+    }
+
+    if (i === cols.length-1) {
+      str += '\n        }\n';
+    } else {
+      str += '\n        },\n';
+    }
+  });
+
+  content = content.replace(/"\[COLUMNS\]"/g, str);
 
   return content;
 };

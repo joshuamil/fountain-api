@@ -1,0 +1,307 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "mediaelements",
+    "description": "[DESCRIPTION]",
+    "termsOfService": "http://fountaincms.io/terms/",
+    "contact": {
+      "name": "Fountain API",
+      "url": "http://fountaincms.io",
+      "email": "joshuamil@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "0.0.1"
+  },
+  "host": "api.fountaincms.io:3000",
+  "basePath": "/api",
+  "schemes": ["http", "https"],
+  "consumes": ["text/plain; charset=utf-8", "application/json"],
+  "produces": ["application/json"],
+  "paths": {
+
+    "/mediaelements": {
+      "get": {
+        "description": "Returns all mediaelements objects.",
+        "operationId": "list",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "mediaelements records returned",
+            "schema": {
+              "$ref": "#/definitions/mediaelements"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthenticated request"
+          },
+          "404": {
+            "description": "mediaelements not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+
+      "post": {
+        "description": "Creates a new mediaelements object.",
+        "operationId": "create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "mediaelements record created.",
+            "schema": {
+              "$ref": "#/definitions/mediaelements"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthenticated request"
+          },
+          "404": {
+            "description": "mediaelements not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+
+    },
+
+    "/mediaelements/{id}": {
+      "get": {
+        "description": "Returns an individual mediaelements object.",
+        "operationId": "retrieve",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {"$ref": "#/parameters/id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "mediaelements record returned",
+            "schema": {
+              "$ref": "#/definitions/mediaelements"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthenticated request"
+          },
+          "404": {
+            "description": "mediaelements not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+
+      "put": {
+        "description": "Returns an individual mediaelements object.",
+        "operationId": "update",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {"$ref": "#/parameters/id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "mediaelements record updated.",
+            "schema": {
+              "$ref": "#/definitions/result"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthenticated request"
+          },
+          "404": {
+            "description": "mediaelements not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+
+      "patch": {
+        "description": "Returns an individual mediaelements object.",
+        "operationId": "patch",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {"$ref": "#/parameters/id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "mediaelements record modified.",
+            "schema": {
+              "$ref": "#/definitions/result"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthenticated request"
+          },
+          "404": {
+            "description": "mediaelements not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+
+      "delete": {
+        "description": "Returns an individual mediaelements object.",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {"$ref": "#/parameters/id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "mediaelements object deleted.",
+            "schema": {
+              "$ref": "#/definitions/result"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthenticated request"
+          },
+          "404": {
+            "description": "mediaelements not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+
+  },
+  "parameters": {
+    "id": {
+      "name": "id",
+      "type": "string",
+      "in": "path",
+      "required": true
+    }
+  },
+  "definitions": {
+    "mediaelements": {
+      "properties": {
+        "elementid": {
+          "type": "string",
+         "description": "UUID (Universal Unique Identifier)"
+        },
+        "mediatypeid": {
+          "type": "string",
+         "description": "UUID (Universal Unique Identifier)"
+        },
+        "lang": {
+          "type": "string"
+        },
+        "mediasource": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "alttext": {
+          "type": "string"
+        },
+        "credit": {
+          "type": "string"
+        },
+        "datasources": {
+          "type": "string"
+        },
+        "datepublished": {
+          "type": "string",
+         "format": "date",
+         "description": "Date and Time Stamp"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+         "format": "date",
+         "description": "Date and Time Stamp"
+        },
+        "updatedAt": {
+          "type": "string",
+         "format": "date",
+         "description": "Date and Time Stamp"
+        }
+
+      }
+    },
+    "result": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "tags": [
+    { "name": "mediaelements", "description": "mediaelements objects" }
+  ],
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "http://fountaincms.io"
+  }
+}
