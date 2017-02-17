@@ -36,7 +36,7 @@ app.get('/', function (req, res) {
 });
 
 // Enable static routes
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/swagger', express.static(path.join(__dirname, 'server/configs')));
 
 // Load custom external routes
