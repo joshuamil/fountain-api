@@ -15,7 +15,13 @@
     },
     "version": "0.0.1"
   },
-  "host": "api.fountaincms.io:3000",
+  "apis": [
+    {
+      "path": "/[MODEL]",
+      "description": "Operations related to [MODEL]"
+    }
+  ],
+  "host": "localhost:3000",
   "basePath": "/api",
   "schemes": ["http", "https"],
   "consumes": ["text/plain; charset=utf-8", "application/json"],

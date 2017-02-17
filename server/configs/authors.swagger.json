@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "authors",
-    "description": "[DESCRIPTION]",
+    "description": "Endpoints related to managing authors in the Fountain CMS",
     "termsOfService": "http://fountaincms.io/terms/",
     "contact": {
       "name": "Fountain API",
@@ -15,7 +15,14 @@
     },
     "version": "0.0.1"
   },
-  "host": "api.fountaincms.io:3000",
+  "apis": [
+    {
+      "path": "/authors",
+      "description": "Operations related to authors"
+    }
+  ],
+  "resourcePath": "/authors",
+  "host": "localhost:3000",
   "basePath": "/api",
   "schemes": ["http", "https"],
   "consumes": ["text/plain; charset=utf-8", "application/json"],

@@ -166,7 +166,7 @@ let getColumns = (table) => {
 
   let columns = [];
   let statement = `SELECT table_name, column_name, ordinal_position, is_nullable, character_maximum_length, udt_name,
-    is_identity, column_default FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table}';`;
+    is_identity, column_ FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table}';`;
 
   return Promise.all([
 

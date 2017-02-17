@@ -17,6 +17,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // Define base API route handler
 app.all(`${settings.server.basePath}/:operation`, function (req, res, next) {
   // Handle lookup of client, authentication token, rate limits, etc.
@@ -31,6 +37,7 @@ app.get('/', function (req, res) {
 
 // Enable static routes
 app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/swagger', express.static(path.join(__dirname, 'server/configs')));
 
 // Load custom external routes
 let routers = {};
