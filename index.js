@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const subscription = require('./server/modules/subscription');
 const app = express();
 
 // Get application settings
@@ -22,6 +23,9 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+// Check for Subscription Key
+app.use(subscription({}));
 
 // Define base API route handler
 app.all(`${settings.server.basePath}/:operation`, function (req, res, next) {

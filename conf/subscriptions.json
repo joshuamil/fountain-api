@@ -1,0 +1,22 @@
+[
+  {
+    "key": "3049273312",
+    "owner": "Administrator",
+    "routes": [],
+    "limit": {
+      "quantity": 5,
+      "frequency": 1000,
+      "scope": []
+    }
+  },
+  {
+    "key": "3049275512",
+    "owner": "Consumer",
+    "routes": ["authors", "exhibits", "tags"],
+    "limit": {
+      "quantity": 5,
+      "frequency": 5000,
+      "scope": ["authors","exhibits"]
+    }
+  }
+]
