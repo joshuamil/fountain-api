@@ -197,6 +197,29 @@
   display: block
 }
 
+
+
+footer.footer {
+  position: absolute;
+  bottom: 0;
+  min-height: 200px;
+  width: 100%;
+  background-color: #efefef;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+}
+
+footer.footer .footer-inner {
+  min-width: 760px;
+  max-width: 960px;
+  margin: 3em auto;
+}
+
+footer.footer a {
+  text-decoration: none;
+  color: #333;
+}
+
 .swagger-section .swagger-ui-wrap pre {
   font-family: Anonymous Pro,Menlo,Consolas,Bitstream Vera Sans Mono,Courier New,monospace;
   background-color: #fcf6db;
