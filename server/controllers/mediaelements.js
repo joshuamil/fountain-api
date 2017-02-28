@@ -13,6 +13,11 @@ const mediaelements = require('../models').mediaelements;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
+// Associated models
+const itemelements = require('../models').itemelements;
+
+mediaelements.hasOne(itemelements, { foreignKey: 'elementid' });
+
 module.exports = {
 
   create(req, res) {
@@ -43,7 +48,13 @@ module.exports = {
 
   list(req, res) {
     return mediaelements
-      .findAll()
+      .findAll({
+        include: [
+          {
+            model: itemelements
+          }
+        ]
+      })
       .then( (mediaelements) => {
         res.status(200).send(mediaelements);
       })

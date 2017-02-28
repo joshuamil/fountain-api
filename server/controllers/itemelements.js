@@ -13,12 +13,18 @@ const itemelements = require('../models').itemelements;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
+// Associated models
+const mediaelements = require('../models').mediaelements;
+
+itemelements.belongsTo(mediaelements, { foreignKey: 'elementid' });
+
 module.exports = {
 
   create(req, res) {
     return itemelements
       .create({
-        itemid: uuidV4(),
+        itemelementid: uuidV4(),
+        itemid: req.body.itemid,
         elementid: req.body.elementid,
         deleted: req.body.deleted,
         createdAt: moment().format(),
@@ -35,7 +41,13 @@ module.exports = {
 
   list(req, res) {
     return itemelements
-      .findAll()
+      .findAll({
+        include: [
+          {
+            model: mediaelements
+          }
+        ]
+      })
       .then( (itemelements) => {
         res.status(200).send(itemelements);
       })
@@ -48,7 +60,7 @@ module.exports = {
     return itemelements
       .findAll({
         where: {
-          itemid: req.params.id
+          itemelementid: req.params.id
         }
       })
       .then( (itemelements) => {
@@ -68,7 +80,7 @@ module.exports = {
 
       },{
         where: {
-          itemid: req.params.id
+          itemelementid: req.params.id
         }
       })
       .then( (itemelements) => {
@@ -84,7 +96,7 @@ module.exports = {
     let payload = {};
     let keys = Object.keys(req.body);
     keys.forEach( (field) => {
-      if(req.body[field] !== null && field !== 'itemid'){
+      if(req.body[field] !== null && field !== 'itemelementid'){
         payload[field] = req.body[field];
       }
     });
@@ -108,7 +120,7 @@ module.exports = {
     return itemelements
       .destroy({
         where: {
-          itemid: req.params.id
+          itemelementid: req.params.id
         }
       })
       .then( (itemelements) => {
