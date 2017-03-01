@@ -13,6 +13,12 @@ const exhibits = require('../models').exhibits;
 const moment = require('moment');
 const uuidV4 = require('uuid/v4');
 
+const exhibititems = require('../models').exhibititems;
+const items = require('../models').items;
+
+exhibits.hasMany(exhibititems, { foreignKey: 'exhibitid' });
+items.hasOne(exhibititems, { foreignKey: 'itemid' });
+
 module.exports = {
 
   create(req, res) {
@@ -38,7 +44,18 @@ module.exports = {
 
   list(req, res) {
     return exhibits
-      .findAll()
+      .findAll({
+        include: [
+          {
+            model: exhibititems,
+            include: [
+              {
+                model: items
+              }
+            ]
+          }
+        ]
+      })
       .then( (exhibits) => {
         res.status(200).send(exhibits);
       })

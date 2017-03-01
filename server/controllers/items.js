@@ -16,9 +16,11 @@ const uuidV4 = require('uuid/v4');
 // Associated models
 const itemelements = require('../models').itemelements;
 const mediaelements = require('../models').mediaelements;
+const exhibititems = require('../models').exhibititems;
 
 items.hasMany(itemelements, { foreignKey: 'itemid' });
 mediaelements.hasOne(itemelements, { foreignKey: 'elementid' });
+items.hasOne(exhibititems, { foreignKey: 'itemid' });
 
 module.exports = {
 
